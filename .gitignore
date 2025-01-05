@@ -1,0 +1,9 @@
+./Nuru/*
+./Nuru/
+
+# Ignore binary files
+main
+main.exe
+
+# Ingore built wasm bianry in the wasm directory
+wasm/main.wasm
