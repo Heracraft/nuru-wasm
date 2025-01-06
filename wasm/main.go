@@ -3,7 +3,7 @@ package main
 import (
 	// "embed"
 	"fmt"
-	"strconv"
+	// "strconv"
 	// "log"
 	// "os"
 	// "strings"
@@ -45,7 +45,7 @@ func Read(contents string) string {
 		if evaluated.Type() != object.NULL_OBJ {
 			return evaluated.Inspect()
 		} else {
-			return "evaluated.Inspect()"
+			return ""
 		}
 	} else {
 		return "Error"
@@ -53,11 +53,10 @@ func Read(contents string) string {
 
 }
 
+
 func runCode(this js.Value, args []js.Value) interface{} {
 	code := args[0].String()
-	output := Read(code)
-	output = strconv.Quote(output)
-	return js.ValueOf(output)
+	return js.ValueOf(Read(code))
 }
 
 func main() {
