@@ -67,3 +67,7 @@ npm run build:wasm #Builds the wasm binary and copies it over to the web app
 ```
 
 > If you are on windows, edit the [build:wasm](https://github.com/Heracraft/nuru-playground/blob/0af828dc5a8fff8eb92ecb8ccd188eecd1cf1dc6/package.json#L11C18-L11C101) script and replace `cp` with `copy` or `Copy-Item`
+
+**Coming soon**
+- Support for user inputs (`jaza()`)
+- Syntax highlighting for Nuru code
