@@ -57,6 +57,9 @@
 			wasmBytes.set(chunk, position);
 			position += chunk.length;
 		}
+
+		loadProgress = 100; // fallback
+
 		return wasmBytes;
 	}
 
