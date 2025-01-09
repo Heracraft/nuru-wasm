@@ -7,3 +7,6 @@ main.exe
 
 # Ingore built wasm bianry in the wasm directory
 wasm/main.wasm
+
+# Ignore vendor directory
+/wasm/vendor/*

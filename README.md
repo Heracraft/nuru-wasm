@@ -21,17 +21,36 @@ cd wasm
    go mod tidy
 ```
 
-3. To build the wasm binary
+3. Create a go vendor folder
+```shell
+go vendor
+```
+
+and copy the modified `builtins.go` into the evaluator package
 
 ```shell
-wasm && GOOS=js GOARCH=wasm go build -o main.wasm
+cp ./modified/builtins.go ./vendor/github.com/NuruProgramming/Nuru/evaluator/
+```
+
+or if you are on **Windows**
+
+```shell
+copy ./modified/builtins.go ./vendor/github.com/NuruProgramming/Nuru/evaluator/
+```
+
+4. To build the wasm binary
+
+```shell
+wasm && GOOS=js GOARCH=wasm go build -mod=vendor -o main.wasm
 ```
 
 or if you are on **Windows**:
 
 ```shell
-$env:GOOS="js"; $env:GOARCH="wasm"; go build -o main.wasm
+$env:GOOS="js"; $env:GOARCH="wasm"; go build -mod=vendor -o main.wasm
 ```
+
+> notice the `-mod=vendor` flag in the wasm build. This is to build the project using the vendored dependencies (which now includes the modified builtins).
 
 **Web app**
 Powered by [Svelte](https://svelte.dev/). To work with it:
@@ -59,15 +78,16 @@ npm run dev -- --open
 ```
 
 **Workspace scripts**
-[/package.json](https://github.com/Heracraft/nuru-playground/blob/0af828dc5a8fff8eb92ecb8ccd188eecd1cf1dc6/package.json#L6) redefines the above commands as scripts you can run from the root folder.
+[/package.json](https://github.com/Heracraft/nuru-playground/blob/main/package.json#L6) redefines the above commands as scripts you can run from the root folder.
 
 ```shell
 npm run dev #runs the dev server
 npm run build:wasm #Builds the wasm binary and copies it over to the web app
+npm run replace #Replaces the default Nuru builtins with browser friendly versions
 ```
 
-> If you are on windows, edit the [build:wasm](https://github.com/Heracraft/nuru-playground/blob/0af828dc5a8fff8eb92ecb8ccd188eecd1cf1dc6/package.json#L11C18-L11C101) script and replace `cp` with `copy` or `Copy-Item`
+> If you are on windows, edit the [build:wasm](https://github.com/Heracraft/nuru-playground/blob/main/package.json#L11C18-L11C101) & [replace](https://github.com/Heracraft/nuru-playground/blob/main/package.json#L12) scripts to replace `cp` with `copy` or `Copy-Item`
 
 **Coming soon**
-- Support for user inputs (`jaza()`)
-- Syntax highlighting for Nuru code
+- [x] Support for user inputs (`jaza()`)
+- [ ] Syntax highlighting for Nuru code
