@@ -20,13 +20,13 @@
 
 	let isMedium = $state(true);
 
-	// let output = $state('');
+	let output = $state('');
 
 	let editorWrapper;
 	let editor;
 
 	onMount(() => {
-		isMedium = new MediaQuery('min-width: 640px',true);
+		isMedium = new MediaQuery('min-width: 640px', true);
 
 		// CodeMirror setup
 		let zincTheme = EditorView.theme(
@@ -39,11 +39,16 @@
 				'.cm-content': {
 					// fontSize: '1.25rem'
 				},
+
 				'.cm-gutters': {
 					backgroundColor: 'hsl(240 3.7% 15.9%) !important' //zinc-800
 				},
 				'.cm-activeLine': {
 					backgroundColor: 'hsl(240 3.7% 15.9% / 50%) !important' // zinc-800
+				},
+				'.cm-scroller': {
+					scrollbarWidth: 'thin',
+					scrollbarColor: 'hsl(240 3.7% 15.9%) hsl(240 5.9% 10%)' // <accent,background> zinc-800 ,zinc-900
 				}
 			},
 			{ dark: true }
@@ -100,7 +105,8 @@
 					// if the wasm binary has loaded, then the runCode function should be available globally
 					if (window.runCode) {
 						// Dont need to update state since the program's output will get caught. See interpreter.svelte:32
-						runCode(code);
+						output = runCode(code);
+						console.log(runCode(code));
 					}
 				}}
 				class="hover:bg-accent mr-2 rounded p-2"
@@ -109,9 +115,8 @@
 			</button>
 		</div>
 		<!-- <div class="h-full w-full"> -->
-			<!-- <Interpreter {code} bind:output={output}/> -->
-			<Interpreter {code} />
-			<!-- <span class="font-semibold">{output}</span> -->
+		<Interpreter {code} {output} />
+		<!-- <span class="font-semibold">{output}</span> -->
 		<!-- </div> -->
 	</Resizable.Pane>
 </Resizable.PaneGroup>

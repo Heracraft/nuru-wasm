@@ -73,3 +73,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+.thin-scrollbar{
+  --background: hsl(0 0% 3.9%); /* dark mode */
+  --foreground: hsl(0 0% 98%); /* dark mode */
+  --muted: hsl(0 0% 14.9%);
+  --muted-foreground: hsl(0 0% 63.9%);
+  --accent: hsl(0 0% 14.9%);
+
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--background);
+}

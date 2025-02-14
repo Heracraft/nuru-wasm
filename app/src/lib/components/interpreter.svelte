@@ -1,13 +1,13 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import {fly} from "svelte/transition"
+	import { fly } from 'svelte/transition';
 
 	import { Progress } from '$lib/components/ui/progress/index.js';
 	import { Info } from 'lucide-svelte';
 
-	let { code /*output=$bindable("")*/ } = $props();
-	let output = $state('');
+	let { code, output } = $props();
+	// let output = $state('');
 	let loadProgress = $state(0);
 
 	let editorWrapper;
@@ -77,10 +77,11 @@
 
 		WebAssembly.instantiate(wasmBytes.buffer, go.importObject).then((result) => {
 			go.run(result.instance);
-			runCode(code);
-		});
+			output=runCode(code);
+		});	
 
-		// Auto-run code. But is too annoying especially when you have user prompts
+		// Auto-run code. But is too annoying especially when you have user prompts.
+
 		// $effect(() => {
 		// 	if (code && window.runCode) {
 		// 		setTimeout(() => {
@@ -90,12 +91,13 @@
 		// });
 
 		// Intercepting console.logs from "wasm_exec.js" - don't do this kids
-		// temp solution
-		const log = console.log.bind(console);
-		console.log = (...args) => {
-			log(...args);
-			output = args.join(' ');
-		};
+		// Temp solution removed
+
+		// const log = console.log.bind(console);
+		// console.log = (...args) => {
+		// 	log(...args);
+		// 	output = args.join(' ');
+		// };
 
 		async () => {
 			(await fetch('/main.wasm')).headers.get('Content-Length');
@@ -105,7 +107,7 @@
 
 <div class="relative h-full w-full p-2">
 	{#if loadProgress != 100}
-		<div out:fly={{y:-5}} class="bg-accent absolute inset-x-0 top-0 flex flex-col gap-2 p-2">
+		<div out:fly={{ y: -5 }} class="bg-accent absolute inset-x-0 top-0 flex flex-col gap-2 p-2">
 			<div class="flex items-center gap-2">
 				<Info size={16} />
 				<p>Loading the interpreter - {loadProgress}%</p>

@@ -6,7 +6,7 @@ A web interpreter for [Nuru](https://github.com/NuruProgramming/Nuru) -- A Swahi
 + Go (^1.19.0)
 + Node.js (^18.13)
 
-##### Working with the Wasm Interpreter
+#### Working with the Wasm Interpreter
 To build the wasm binary from the go interpreter: 
 
 1. Change directories to `/wasm`
@@ -52,7 +52,7 @@ $env:GOOS="js"; $env:GOARCH="wasm"; go build -mod=vendor -o main.wasm
 
 > notice the `-mod=vendor` flag in the wasm build. This is to build the project using the vendored dependencies (which now includes the modified builtins).
 
-##### Web app
+#### Web app
 Powered by [Svelte](https://svelte.dev/). To work with it:
 
 1. Change directories to `/app`
@@ -77,7 +77,7 @@ npm run dev
 npm run dev -- --open
 ```
 
-##### Workspace scripts
+#### Workspace scripts
 [/package.json](https://github.com/Heracraft/nuru-playground/blob/main/package.json#L6) redefines the above commands as scripts you can run from the root folder.
 
 ```shell
