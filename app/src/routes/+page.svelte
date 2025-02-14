@@ -14,7 +14,9 @@
 
 	import { File, Play } from 'lucide-svelte';
 
-	let code = $state('andika(5)');
+	import { defaultCode } from '$lib';
+
+	let code = $state(defaultCode);
 
 	let isMedium = $state(true);
 
@@ -35,7 +37,7 @@
 					backgroundColor: 'hsl(240 5.9% 10%) !important' // zinc-900
 				},
 				'.cm-content': {
-					fontSize: '1.25rem'
+					// fontSize: '1.25rem'
 				},
 				'.cm-gutters': {
 					backgroundColor: 'hsl(240 3.7% 15.9%) !important' //zinc-800
