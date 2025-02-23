@@ -77,7 +77,7 @@
 
 		WebAssembly.instantiate(wasmBytes.buffer, go.importObject).then((result) => {
 			go.run(result.instance);
-			output=runCode(code);
+			// output=runCode(code);
 		});	
 
 		// Auto-run code. But is too annoying especially when you have user prompts.
