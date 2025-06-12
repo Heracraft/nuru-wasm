@@ -24,7 +24,7 @@
 
 	let editorWrapper;
 	let editor;
-
+	
 	onMount(() => {
 		isMedium = new MediaQuery('min-width: 640px', true);
 
@@ -78,7 +78,7 @@
 
 <Resizable.PaneGroup
 	direction={isMedium.current ? 'horizontal' : 'vertical'}
-	class="text-foreground w-full flex-1"
+	class="w-full flex-1 text-foreground"
 >
 	<Resizable.Pane defaultSize={50} class="overflow-auto">
 		<div class="my-1 shrink-0 border-b">
@@ -104,14 +104,13 @@
 				onclick={() => {
 					// if the wasm binary has loaded, then the runCode function should be available globally
 					if (window.runCode) {
-						
 						// Dont need to update state since the program's output will get caught. See interpreter.svelte:32
-						output = runCode(code);
+						runCode(code);
 						// console.log("Clicked: running code");
 						// console.log(runCode(code));
 					}
 				}}
-				class="hover:bg-accent mr-2 rounded p-2"
+				class="mr-2 rounded p-2 hover:bg-accent"
 			>
 				<Play size={20} class="text-yellow-500" />
 			</button>
