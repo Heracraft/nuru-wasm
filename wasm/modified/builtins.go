@@ -61,7 +61,6 @@ var builtins = map[string]*object.Builtin{
 	},
 	"andika": {
 		Fn: func(args ...object.Object) object.Object {
-			fmt.Println("problem starts here")
 			jsOutputReceiverFunction := js.Global().Get("nuruOutputReceiver")
 			if len(args) == 0 {
 				jsOutputReceiverFunction.Invoke("")

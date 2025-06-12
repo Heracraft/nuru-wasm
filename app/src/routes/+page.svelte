@@ -105,6 +105,7 @@
 					// if the wasm binary has loaded, then the runCode function should be available globally
 					if (window.runCode) {
 						// Dont need to update state since the program's output will get caught. See interpreter.svelte:32
+						output=""
 						runCode(code);
 						// console.log("Clicked: running code");
 						// console.log(runCode(code));
