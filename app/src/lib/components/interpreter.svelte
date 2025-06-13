@@ -14,6 +14,17 @@
 
 	let editor;
 
+	function setUp() {
+		// runs before the wasm binary is initialized
+		// It's role is to register the output (nuruOutputReceiver) capture function
+
+		window.nuruOutputReceiver = function (codeOutput) {
+			console.log('outpit', codeOutput);
+
+			output += codeOutput + '<br/>';
+		};
+	}
+
 	async function loadWasmBinary(url) {
 		// Start the fetch request
 		const response = await fetch(url);
@@ -75,10 +86,12 @@
 		// using fetch
 		const wasmBytes = await loadWasmBinary('/main.wasm');
 
+		setUp();
+
 		WebAssembly.instantiate(wasmBytes.buffer, go.importObject).then((result) => {
 			go.run(result.instance);
 			// output=runCode(code);
-		});	
+		});
 
 		// Auto-run code. But is too annoying especially when you have user prompts.
 
@@ -105,9 +118,9 @@
 	});
 </script>
 
-<div class="relative h-full w-full p-2">
+<div class="relative h-full w-full py-2 px-4">
 	{#if loadProgress != 100}
-		<div out:fly={{ y: -5 }} class="bg-accent absolute inset-x-0 top-0 flex flex-col gap-2 p-2">
+		<div out:fly={{ y: -5 }} class="absolute inset-x-0 top-0 flex flex-col gap-2 bg-accent p-2">
 			<div class="flex items-center gap-2">
 				<Info size={16} />
 				<p>Loading the interpreter - {loadProgress}%</p>
@@ -115,5 +128,5 @@
 			<Progress value={loadProgress} class="h-2"></Progress>
 		</div>
 	{/if}
-	{output}
+	{@html output}
 </div>

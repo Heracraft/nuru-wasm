@@ -61,8 +61,9 @@ var builtins = map[string]*object.Builtin{
 	},
 	"andika": {
 		Fn: func(args ...object.Object) object.Object {
+			jsOutputReceiverFunction := js.Global().Get("nuruOutputReceiver")
 			if len(args) == 0 {
-				fmt.Println("")
+				jsOutputReceiverFunction.Invoke("")
 			} else {
 				var arr []string
 				for _, arg := range args {
@@ -73,7 +74,8 @@ var builtins = map[string]*object.Builtin{
 				}
 				str := strings.Join(arr, " ")
 				// fmt.Println(str)  // removed Print to console
-				return &object.String{Value: str} // return the output
+				// return &object.String{Value: str} // return the output
+				jsOutputReceiverFunction.Invoke(str)	
 			}
 			return nil
 		},

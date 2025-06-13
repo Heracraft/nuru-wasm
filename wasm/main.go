@@ -24,7 +24,9 @@ import (
 
 const PROMPT = ">>> "
 
-func Read(contents string) string {
+func Read(contents string) {
+	jsOutputReceiverFunction := js.Global().Get("nuruOutputReceiver")
+
 	env := object.NewEnvironment()
 
 	l := lexer.New(contents)
@@ -34,30 +36,28 @@ func Read(contents string) string {
 
 	if len(p.Errors()) != 0 {
 		fmt.Println("Kuna Errors Zifuatazo:")
+		jsOutputReceiverFunction.Invoke("Kuna Errors Zifuatazo:")
 
 		for _, msg := range p.Errors() {
 			fmt.Println("\t" + msg)
+			jsOutputReceiverFunction.Invoke("\t" + msg)
 		}
 
 	}
 	evaluated := evaluator.Eval(program, env)
 	if evaluated != nil {
 		if evaluated.Type() != object.NULL_OBJ {
-			return evaluated.Inspect()
-		} else {
-			return ""
+			evaluated.Inspect()
 		}
-	} else {
-		return "Error"
 	}
 
 }
 
-
 func runCode(this js.Value, args []js.Value) interface{} {
 	print("Running code")
 	code := args[0].String()
-	return js.ValueOf(Read(code))
+	Read(code)
+	return nil
 }
 
 func main() {

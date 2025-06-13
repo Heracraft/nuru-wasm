@@ -23,7 +23,7 @@ cd wasm
 
 3. Create a go vendor folder
 ```shell
-go vendor
+go mod vendor
 ```
 
 and copy the modified `builtins.go` into the evaluator package
