@@ -35,19 +35,22 @@ self.addEventListener('fetch', (event) => {
 	if (event.request.method !== 'GET') return;
 
 	async function respond() {
-		const url = new URL(event.request.url);
+		// const url = new URL(event.request.url); // no-longer needed
 		const cache = await caches.open(CACHE);
 
-		// `build`/`files` can always be served from the cache
-		if (ASSETS.includes(url.pathname)) {
-			const response = await cache.match(url.pathname);
+		// ~~`build`/`files` can always be served from the cache~~
+		// Removed this to avoid any stale data when online
+		// always network first
 
-			if (response) {
-				return response;
-			}
-		}
+		// if (ASSETS.includes(url.pathname)) {
+		// 	const response = await cache.match(url.pathname);
 
-		// for everything else, try the network first, but
+		// 	if (response) {
+		// 		return response;
+		// 	}
+		// }
+
+		// try the network first, but
 		// fall back to the cache if we're offline
 		try {
 			const response = await fetch(event.request);
