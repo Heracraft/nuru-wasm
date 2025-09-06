@@ -38,9 +38,7 @@ self.addEventListener('fetch', (event) => {
 		// const url = new URL(event.request.url); // no-longer needed
 		const cache = await caches.open(CACHE);
 
-		// ~~`build`/`files` can always be served from the cache~~
-		// Removed this to avoid any stale data when online
-		// always network first
+		// Removed this ↓ to change the cache stratergy to network-first
 
 		// if (ASSETS.includes(url.pathname)) {
 		// 	const response = await cache.match(url.pathname);

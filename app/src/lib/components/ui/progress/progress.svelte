@@ -7,7 +7,7 @@
 
 <ProgressPrimitive.Root
 	bind:ref
-	class={cn("bg-zinc-700 relative h-4 w-full overflow-hidden rounded-full", className)}
+	class={cn("bg-slate-700 relative h-4 w-full overflow-hidden rounded-full", className)}
 	{value}
 	{max}
 	{...restProps}
