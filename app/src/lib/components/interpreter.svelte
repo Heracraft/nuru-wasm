@@ -18,10 +18,16 @@
 		// runs before the wasm binary is initialized
 		// It's role is to register the output (nuruOutputReceiver) capture function
 
-		window.nuruOutputReceiver = function (codeOutput) {
-			console.log('outpit', codeOutput);
+		window.nuruOutputReceiver = function (codeOutput, isError = false) {
+			// console.log('outpit', codeOutput);
 
-			output += codeOutput + '<br/>';
+			if (isError) {
+				// codeOutput = codeOutput.toString().splice(14,codeOutput.length) // remove "Runtime Error: " from the start of the string
+				codeOutput=codeOutput.slice(15);
+				output += `<span class="text-red-500">${codeOutput}</span><br/>`;
+			} else {
+				output += codeOutput + '<br/>';
+			}
 		};
 	}
 

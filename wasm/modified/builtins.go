@@ -52,7 +52,8 @@ var builtins = map[string]*object.Builtin{
 			// buffer := bufio.NewReader(os.Stdin)
 
 			// line, _, err := buffer.ReadLine()
-			if result.String() == "" {
+
+			if result.String() == ""|| result.String() == "null" {
 				return newError("Nimeshindwa kusoma uliyo yajaza")
 			}
 
