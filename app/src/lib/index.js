@@ -1,7 +1,7 @@
-export const defaultCode = `// Welcome to the Nuru playground
-// Write your code here and click the play button to run it
+export const defaultCode = `// Karibu kwenye uwanja wa Nuru
+// Andika hapa chini na bonyeza kitufe cha 'kucheza' ili kuendesha
 
-// Kielelezo cha programu ya Fibonacci
+// Mfano wa programu ya Fibonacci
 
 urefu = namba(jaza("ingiza urefu wa mlolongo"))
 

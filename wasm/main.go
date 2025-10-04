@@ -47,7 +47,7 @@ func Read(contents string) {
 	evaluated := evaluator.Eval(program, env)
 	if evaluated != nil {
 		if evaluated.Type() != object.NULL_OBJ {
-			evaluated.Inspect()
+			jsOutputReceiverFunction.Invoke(evaluated.Inspect(), true)
 		}
 	}
 

@@ -9,7 +9,7 @@
 		"build": "cd app && npm run build",
 		"preview": "cd app && npm run preview",
 		"build:wasm": "cd wasm && GOOS=js GOARCH=wasm go build -mod=vendor -o main.wasm && cp main.wasm ../app/static/",
-		"replace": "cd wasm && cp ./modified/builtins.go ./vendor/github.com/NuruProgramming/Nuru/evaluator/"
+		"replace": "cd wasm && cp ./modified/* ./vendor/github.com/NuruProgramming/Nuru/evaluator/"
 	},
 	"keywords": [],
 	"author": "",

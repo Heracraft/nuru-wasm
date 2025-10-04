@@ -29,7 +29,8 @@
 		isMedium = new MediaQuery('min-width: 640px', true);
 
 		// CodeMirror setup
-		let zincTheme = EditorView.theme(
+
+		let zincTheme= EditorView.theme(
 			{
 				'&': {
 					fontFamily: 'Fira Code, monospace',
@@ -54,13 +55,38 @@
 			{ dark: true }
 		);
 
+		let slateTheme = EditorView.theme(
+			{
+				'&': {
+					fontFamily: 'Fira Code, monospace',
+					fontSize: '1rem',
+					backgroundColor: 'hsl(222.2 84% 4.9%) !important' // slate-900
+				},
+				'.cm-content': {
+					// fontSize: '1.25rem'
+				},
+
+				'.cm-gutters': {
+					backgroundColor: 'hsl(222.2 47.4% 11.2%) !important' //slate-800
+				},
+				'.cm-activeLine': {
+					backgroundColor: 'hsl(222.2 47.4% 11.2% / 50%) !important' // slate-800
+				},
+				'.cm-scroller': {
+					scrollbarWidth: 'thin',
+					scrollbarColor: 'hsl(222.2 47.4% 11.2%) hsl(222.2 84% 4.9%)' // <accent,background> slate-800 ,slate-900
+				}
+			},
+			{ dark: true }
+		);
+
 		const initialState = EditorState.create({
 			doc: code,
 			extensions: [
 				basicSetup,
 				javascript(),
 				oneDark,
-				zincTheme,
+				slateTheme,
 				EditorView.updateListener.of((v) => {
 					if (v.docChanged) {
 						code = v.state.doc.toString();
@@ -86,7 +112,7 @@
 				class="relative flex w-28 items-center justify-center gap-2 py-2.5 text-sm after:absolute after:inset-x-0 after:top-full after:h-[1px] after:w-full after:bg-yellow-600 after:content-['']"
 			>
 				<File size={14} class="text-muted-foreground" />
-				Main.nr
+				Kuu.nr
 			</div>
 		</div>
 		<!-- The editor -->
@@ -98,7 +124,7 @@
 			<div
 				class="relative flex w-28 items-center justify-center gap-2 py-2.5 text-sm after:absolute after:inset-x-0 after:top-full after:h-[1px] after:w-full after:bg-yellow-600 after:content-['']"
 			>
-				Result
+				Matokeo
 			</div>
 			<button
 				onclick={() => {

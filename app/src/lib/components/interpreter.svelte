@@ -3,11 +3,13 @@
 
 	import { fly } from 'svelte/transition';
 
+	import xss from 'xss';
+
 	import { Progress } from '$lib/components/ui/progress/index.js';
 	import { Info } from 'lucide-svelte';
 
-	let { code, output } = $props();
-	// let output = $state('');
+	let { code } = $props();
+	let output = $state('');
 	let loadProgress = $state(0);
 
 	let editorWrapper;
@@ -15,13 +17,45 @@
 	let editor;
 
 	function setUp() {
-		// runs before the wasm binary is initialized
+		// runs be
+		// fore the wasm binary is initialized
 		// It's role is to register the output (nuruOutputReceiver) capture function
 
-		window.nuruOutputReceiver = function (codeOutput) {
-			console.log('outpit', codeOutput);
+		let source = '<strong>hello</strong><s>alert(/xss/);</s>end';
+		let html = xss(source, {
+			whiteList: {}, // empty, means filter out all tags
+			stripIgnoreTag: true, // filter out all HTML not in the whilelist
+			stripIgnoreTagBody: ['script'] // the script tag is a special case, we need
+			// to filter out its content
+		});
 
-			output += codeOutput + '<br/>';
+		window.nuruOutputReceiver = function (codeOutput, isError = false) {
+			// console.log('outpit', codeOutput);
+
+			codeOutput = xss(codeOutput, {
+				whiteList: {},
+				stripIgnoreTag: true
+			});
+			// Why? Well, the output could contain HTML tags
+			// We want colorful outputs (red when error) in our output section
+			// So we're embedding the error inside a span element
+			// Or in nothing if there's no error
+			// But the user could do something like andika("<img src=x onerror=alert(1)>")
+			// Then we inject this output as a html
+			// Bam, we have XSS
+			// So we'll purify the output, format it with HTML (if error) then inject that shi 
+
+			if (isError) {
+				codeOutput = codeOutput.slice(15); // remove "Runtime Error: " from the start of the string
+				// output = `<span class="text-red-500">${codeOutput}</span>`;
+				
+				output = `<span class="text-red-500">${codeOutput}</span>`;
+			} else {
+				output = codeOutput;
+			}
+			
+
+			
 		};
 	}
 
@@ -118,12 +152,13 @@
 	});
 </script>
 
-<div class="relative h-full w-full py-2 px-4">
+<div class="relative h-full w-full px-4 py-2">
 	{#if loadProgress != 100}
 		<div out:fly={{ y: -5 }} class="absolute inset-x-0 top-0 flex flex-col gap-2 bg-accent p-2">
 			<div class="flex items-center gap-2">
 				<Info size={16} />
-				<p>Loading the interpreter - {loadProgress}%</p>
+				<!-- <p>Loading the interpreter - {loadProgress}%</p> -->
+				<p>Loading the interpreter</p>
 			</div>
 			<Progress value={loadProgress} class="h-2"></Progress>
 		</div>
