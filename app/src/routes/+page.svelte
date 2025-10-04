@@ -3,7 +3,7 @@
 	import { MediaQuery } from 'svelte/reactivity';
 
 	import { basicSetup, EditorView } from 'codemirror';
-	import { EditorState } from '@codemirror/state';
+	import { EditorState, } from '@codemirror/state';
 	import { javascript } from '@codemirror/lang-javascript';
 	// import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 	import { oneDark } from '@codemirror/theme-one-dark';
@@ -24,13 +24,13 @@
 
 	let editorWrapper;
 	let editor;
-	
+
 	onMount(() => {
 		isMedium = new MediaQuery('min-width: 640px', true);
 
 		// CodeMirror setup
 
-		let zincTheme= EditorView.theme(
+		let zincTheme = EditorView.theme(
 			{
 				'&': {
 					fontFamily: 'Fira Code, monospace',
@@ -89,15 +89,16 @@
 				slateTheme,
 				EditorView.updateListener.of((v) => {
 					if (v.docChanged) {
-						code = v.state.doc.toString();
 						// console.log({ code });
 					}
-				})
+				}),
+				EditorView.lineWrapping
 			]
+			
 		});
 		editor = new EditorView({
 			state: initialState,
-			parent: editorWrapper
+			parent: editorWrapper,
 		});
 	});
 </script>
@@ -131,7 +132,7 @@
 					// if the wasm binary has loaded, then the runCode function should be available globally
 					if (window.runCode) {
 						// Dont need to update state since the program's output will get caught. See interpreter.svelte:32
-						output=""
+						output = '';
 						runCode(code);
 						// console.log("Clicked: running code");
 						// console.log(runCode(code));
