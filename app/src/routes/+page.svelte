@@ -116,10 +116,10 @@
 
 	function outputEffect(newOutput, isError) {
 		if (isError) {
-			newOutput = newOutput.slice(15); // remove "Runtime Error: " from the start of the string
-			// output = `<span class="text-red-500">${newOutput}</span>`;
+			newOutput=newOutput.replace("[31m","") // remove formatting done by the interpreter
+			newOutput=newOutput.replace("[0m","") // to give color to the error messages in the terminal. Temporary solution.
 
-			output += `<span class="text-red-500">${newOutput}</span><br/>`;
+			output += `<span class="text-red-400">${newOutput}</span><br/>`;
 		} else {
 			output += newOutput + '<br/>';
 		}

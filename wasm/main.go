@@ -36,10 +36,10 @@ func Read(contents string) {
 
 	if len(p.Errors()) != 0 {
 		fmt.Println("Kuna Errors Zifuatazo:")
-		jsOutputReceiverFunction.Invoke("Kuna Errors Zifuatazo:")
+		jsOutputReceiverFunction.Invoke("Kuna Errors Zifuatazo:", true)
 
 		for _, msg := range p.Errors() {
-			fmt.Println("\t" + msg)
+			// fmt.Println("\t" + msg)
 			jsOutputReceiverFunction.Invoke("\t" + msg, true)
 		}
 
