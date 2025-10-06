@@ -40,7 +40,7 @@ func Read(contents string) {
 
 		for _, msg := range p.Errors() {
 			fmt.Println("\t" + msg)
-			jsOutputReceiverFunction.Invoke("\t" + msg)
+			jsOutputReceiverFunction.Invoke("\t" + msg, true)
 		}
 
 	}
