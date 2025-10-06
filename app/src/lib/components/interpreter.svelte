@@ -8,8 +8,7 @@
 	import { Progress } from '$lib/components/ui/progress/index.js';
 	import { Info } from 'lucide-svelte';
 
-	let { code } = $props();
-	let output = $state('');
+	let { code, outputEffect, children } = $props();
 	let loadProgress = $state(0);
 
 	let editorWrapper;
@@ -17,17 +16,10 @@
 	let editor;
 
 	function setUp() {
-		// runs be
-		// fore the wasm binary is initialized
+		// runs before the wasm binary is initialized
 		// It's role is to register the output (nuruOutputReceiver) capture function
-
-		let source = '<strong>hello</strong><s>alert(/xss/);</s>end';
-		let html = xss(source, {
-			whiteList: {}, // empty, means filter out all tags
-			stripIgnoreTag: true, // filter out all HTML not in the whilelist
-			stripIgnoreTagBody: ['script'] // the script tag is a special case, we need
-			// to filter out its content
-		});
+		// esentially a bridge from the wasm/go binary. all outputs (errors and prints to the console)
+		// Will be received by the (nuruOutputReceiver) capture function and passed onto the effect function
 
 		window.nuruOutputReceiver = function (codeOutput, isError = false) {
 			// console.log('outpit', codeOutput);
@@ -37,25 +29,15 @@
 				stripIgnoreTag: true
 			});
 			// Why? Well, the output could contain HTML tags
-			// We want colorful outputs (red when error) in our output section
+			// We want colorful outputs (red when error) in our output section and line breaks
 			// So we're embedding the error inside a span element
-			// Or in nothing if there's no error
+			// Or in nothing plus a line break if there's no error
 			// But the user could do something like andika("<img src=x onerror=alert(1)>")
 			// Then we inject this output as a html
 			// Bam, we have XSS
-			// So we'll purify the output, format it with HTML (if error) then inject that shi 
+			// So we'll purify the output, format it with HTML (if error) then inject that shi
 
-			if (isError) {
-				codeOutput = codeOutput.slice(15); // remove "Runtime Error: " from the start of the string
-				// output = `<span class="text-red-500">${codeOutput}</span>`;
-				
-				output = `<span class="text-red-500">${codeOutput}</span>`;
-			} else {
-				output = codeOutput;
-			}
-			
-
-			
+			outputEffect(codeOutput, isError)
 		};
 	}
 
@@ -124,7 +106,6 @@
 
 		WebAssembly.instantiate(wasmBytes.buffer, go.importObject).then((result) => {
 			go.run(result.instance);
-			// output=runCode(code);
 		});
 
 		// Auto-run code. But is too annoying especially when you have user prompts.
@@ -163,5 +144,5 @@
 			<Progress value={loadProgress} class="h-2"></Progress>
 		</div>
 	{/if}
-	{@html output}
+	{@render children()}
 </div>

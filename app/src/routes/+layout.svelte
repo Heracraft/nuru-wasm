@@ -5,8 +5,9 @@
 	let { children } = $props();
 </script>
 
-<div class="dark flex h-[100dvh] flex-col bg-slate-950">
-	<div class="flex justify-between bg-slate-900 px-10 text-foreground">
+
+<div class="flex h-[100dvh] flex-col">
+	<div class="flex justify-between bg-slate-900 px-10 text-foreground border-b">
 		<div class="flex items-center p-4">
 			<a href="/" class="flex gap-1 text-xl font-bold uppercase">
 				Uwanja wa
